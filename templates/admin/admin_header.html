@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="{% static 'admin_custom/admin_custom.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="header">
+    <a href="{% url 'admin_panel' %}" class ="logo" >Admin Panel</a>
+    <div class = "header-right">
+      <a class= "active" href="{% url 'profile' username=user.username %}">Home</a>
+      <a href="{% url 'logout' %}">Logout</a>
+    </div>
+</div>
+{% block content %} {% endblock %}
+</body>

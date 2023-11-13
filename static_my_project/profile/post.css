@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@700&display=swap');
+body{
+  padding-top: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  background-image: linear-gradient(#fe8116, #fcb001);
+  font-family: "Poppins", sans-serif;
+}
+
+header{
+  font-family: 'Raleway', sans-serif;
+  font-size: 30px;
+  font-weight: 900;
+  color: #fe8116;
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+.post-container {
+	width: 380px;
+	padding: 0px 30px 50px 30px;
+  	background: #fff;
+  	border-radius: 5px;
+  	text-align: center;
+  	box-shadow: 10px 10px 15px rgba(0,0,0,0.1);padding: 0px 30px 50px 30px;
+  	background: #fff;
+  	border-radius: 5px;
+  	text-align: center;
+  	box-shadow: 10px 10px 15px rgba(0,0,0,0.1);
+}
+#post-form label{
+	line-height: 2.7em;
+}
+
+#post-form textarea{
+	min-height: 130px;
+	font-size: 16px;
+}
+
+.post-field{
+    width: 90%;
+    height: 200px;
+    outline: none;
+    padding: 15px;
+    font-size: 17px;
+    font-weight: 400;
+    color: #333;
+    border: 1px solid #C7BEBE;
+    border-bottom-width: 2.5px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+#submit-btn{
+  font-family: "Poppins", sans-serif;
+  font-size: 17px;
+  width: 100%;
+  height: 50px;
+  margin-top: 20px;
+  color: #fff;
+  padding: 0;
+  border: none;
+  background: #fe8116;
+  cursor: pointer;
+  border-radius: 5px;
+  border-bottom: 2px solid rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+
+textarea{
+    font-family: "Poppins", sans-serif;
+
+}
+.input-box textarea:focus{
+  border-color: #fe8116;
+}
+
+#photo-btn{
+	margin-top: 10px;
+	margin-right: 4px;
+	width: 49%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	color: #fff;
+	background-color: var(--btnColor);
+	border: none;
+}
+
+#video-btn{
+	margin-top: 10px;
+	margin-left: 4px;
+	width: 49%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	color: #fff;
+	background-color: var(--btnColor);
+	border: none;
+}
+
+
+@media screen and (max-width: 1200px){
+	.post-container{
+		width: 95%;
+	}
+}
+
+#submit-btn:disabled {
+            opacity: 0.5; /* Reduce opacity to make it appear faded */
+            background-color: #6e6c6c; /* Change the background color */
+            color: #2d2d2d; /* Change the text color */
+            cursor: not-allowed; /* Change the cursor style */
+}
+.input-box input{
+    height: 40px;
+    width: 100%;
+    outline: none;
+    padding: 0 15px;
+    font-size: 17px;
+    font-weight: 400;
+    color: #333;
+    border: 1.5px solid #fe8116;
+    border-bottom-width: 2.5px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.wrapper{
+  position: relative;
+  max-width: 430px;
+  width: 100%;
+  background: #fff;
+  padding: 34px;
+  border-radius: 6px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.respond{
+    width: 100%;
+    height: 150px;
+    outline: none;
+    padding: 15px;
+    font-size: 17px;
+    font-weight: 400;
+    color: #333;
+    border: 1px solid #C7BEBE;
+    border-bottom-width: 2.5px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}

@@ -1,0 +1,53 @@
+{% extends "profile/header.html" %}
+{% load static %}
+{% block content %}
+<div class="profile-page tx-13">
+    {% if users and users|length > 0 %}
+        <section class="projectsList">
+            <div class="grid grid--three">
+                {% for user in users %}
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 grid-margin">
+                                <div style="background: {{ user.backgroundColor}}; border-radius: 5px;" class="row" id="upper-profile">
+                                    <div class="col-12 grid-margin">
+                                        <a style="color: #24262e; text-decoration: none;" href="{% url 'profile' user.username %}">
+                                            <div style="background: {{ user.color }}" class="profile-header">
+                                                <div style="background: {{ user.color }}" class="cover">
+                                                    <div class="gray-shade"></div>
+                                                    <figure>
+                                                        <img src="{{ user.profile_cover.url }}" class="img-fluid" alt="profile cover">
+                                                    </figure>
+                                                    <div class="cover-body d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <!-- Additional content can be added here -->
+                                                            <img class="profile-pic" src="{{ user.profile_image.url }}" alt="profile">
+                                                            <span class="profile-name">{{ user.username }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="header-links">
+                                                    <!-- Additional links or content can go here -->
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% elif search_performed %}
+        <h3>No users found.</h3>
+    {% else %}
+        <h3>Please enter a search query.</h3>
+    {% endif %}
+</div>
+<style>
+    body {
+        background: #181414;
+    }
+</style>
+{% endblock %}

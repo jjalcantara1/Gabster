@@ -1,0 +1,133 @@
+/*:root{*/
+/*	--mainColor:#eaeaea;*/
+/*	--secondaryColor:#fff;*/
+
+/*	--borderColor:#c1c1c1;*/
+
+/*	--btnColor: black;*/
+/*}*/
+
+
+/*html, body{*/
+/*	padding: 0;*/
+/*	margin: 0;*/
+/*}*/
+
+/*h1, h3, strong{*/
+/*	color: var(--mainText);*/
+/*	font-family: 'Russo One', sans-serif;*/
+/*	font-weight: 500;*/
+/*}*/
+
+/*label, input, textarea{*/
+/*	color: var(--mainText);*/
+/*	font-family: 'Roboto Mono', monospace;*/
+/*}*/
+
+/*h1{font-size: 56px;}*/
+/*h2{font-size: 36px;}*/
+/*h3{font-size: 28px;}*/
+/*h4{font-size: 24px;}*/
+/*h5{font-size: 20px;}*/
+/*h6{font-size: 16px;}*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@700&display=swap');
+body{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: linear-gradient(#fe8116, #fcb001);
+  font-family: "Poppins", sans-serif;
+}
+
+header{
+  font-family: 'Raleway', sans-serif;
+  font-size: 30px;
+  font-weight: 900;
+  color: #fe8116;
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+.testimonial-container{
+	width: 380px;
+	padding: 0px 30px 50px 30px;
+  	background: #fff;
+  	border-radius: 5px;
+  	text-align: center;
+  	box-shadow: 10px 10px 15px rgba(0,0,0,0.1);padding: 0px 30px 50px 30px;
+  	background: #fff;
+  	border-radius: 5px;
+  	text-align: center;
+  	box-shadow: 10px 10px 15px rgba(0,0,0,0.1);
+}
+
+/*#testimonial-form{*/
+/*	display: block;*/
+/*	max-width: 600px;*/
+/*	margin: 0 auto;*/
+/*	border: 3px solid black;*/
+/*	padding: 15px;*/
+/*	border-radius: 10px;*/
+/*	background-color: #FE8116;*/
+/*	margin-bottom: 50px;*/
+/*	-webkit-box-shadow: 20px 20px 16px 3px rgba(0,0,0,0.75);*/
+/*	-moz-box-shadow: 20px 20px 16px 3px rgba(0,0,0,0.75);*/
+/*	box-shadow: 20px 20px 16px 3px rgba(0,0,0,0.75);*/
+/*}*/
+#testimonial-form label{
+	line-height: 2.7em;
+}
+
+#testimonial-form textarea{
+	min-height: 130px;
+	font-size: 16px;
+}
+
+.testimonial-field{
+    width: 90%;
+    height: 200px;
+    outline: none;
+    padding: 15px;
+    font-size: 17px;
+    font-weight: 400;
+    color: #333;
+    border: 1px solid #C7BEBE;
+    border-bottom-width: 2.5px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+#submit-btn{
+  font-family: "Poppins", sans-serif;
+  font-size: 17px;
+  width: 100%;
+  height: 50px;
+  margin-top: 20px;
+  color: #fff;
+  padding: 0;
+  border: none;
+  background: #fe8116;
+  cursor: pointer;
+  border-radius: 5px;
+  border-bottom: 2px solid rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+textarea{
+    font-family: "Poppins", sans-serif;
+
+}
+.input-box textarea:focus{
+  border-color: #fe8116;
+}
+
+#submit-btn:disabled {
+            opacity: 0.5; /* Reduce opacity to make it appear faded */
+            background-color: #6e6c6c; /* Change the background color */
+            color: #2d2d2d; /* Change the text color */
+            cursor: not-allowed; /* Change the cursor style */
+}
+

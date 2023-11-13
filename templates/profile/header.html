@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profile</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family={{ user.font_preference }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta name=”viewport” content=”width=device-width, initial-scale=1.0">
+    <link href="{% static 'profile/main.css' %}" rel="stylesheet">
+
+</head>
+
+<body background="{{ user.profile_background.url }}">
+{#<body>#}
+    <div class="header">
+        <header id="header">
+    <a id="logo" href="{% url 'profile' request.user.username %}">
+        <img src="{% static 'profile/orange.png' %}" id="logo">
+    </a>
+
+
+        <form id='searchForm' class ="box" action = "{% url 'search' %}" method="get">
+                <input class="input input--text" id="formInput#search" type="text" name="search_query"
+                       placeholder="Search a user" value="{{ search_query }}"/>
+                <button type="submit"><i class="bi bi-search" value="Search"></i></button>
+        </form>
+
+<div class="dropdown">
+
+    <a class = "btn btn-success btn-l mt-3" id="button">
+        <img src="{{ user.profile_image.url }}" >
+    </a>
+    <div class="dropdown-content" id="myDropdown">
+                <a href="{% url 'update_profile' %}">Edit Profile</a>
+                 {% if user.is_superuser %}
+                <a href='/contact'>View Messages</a>
+                    {% else %}
+                <a href='/contact'>Help</a>
+                    {% endif %}
+                <a href='/delete-account'>Delete Account</a>
+                    {% if request.user.is_superuser %}
+                <a href="{% url 'admin_panel'  %}">Admin Panel</a>
+                    {% endif %}
+                <a href="/logout ">Log Out</a>
+            </div>
+</div>
+        </header>
+
+    </div>
+    {% block content %} {% endblock %}
+</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+     <script type="text/javascript">
+        // Function to set the background if user has a profile background
+        function setBackground() {
+            var user = {
+                // Assuming user object has a property 'profile_background'
+                profile_background: {
+                    url: 'path_to_background_image.jpg' // Replace with actual path
+                }
+            };
+
+            if (user.profile_background && user.profile_background.url) {
+                document.body.style.backgroundImage = 'url(' + user.profile_background.url + ')';
+            }
+        }
+    </script>
+</html>
+
+

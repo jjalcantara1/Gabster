@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="{% static 'register/verify.css' %}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&display=swap" rel="stylesheet">
+    <title>Delete Account</title>
+</head>
+<body>
+<div class="wrapper" style="padding: 20px">
+    <div id="delete-account-modal" class="modal">
+        <div class="modal-content">
+            <header><h1>Delete Account</h1></header>
+            <p style="text-align: center">Are you sure you want to delete your account?</p>
+            <form method="post" action="{% url 'delete_account' %}">
+                {% csrf_token %}
+                <button id="submit-btn" type="submit" class="btn btn-danger">Yes, delete my account</button>
+                <a id="cancel" href="{% url 'profile' user.username %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

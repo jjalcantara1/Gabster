@@ -1,0 +1,83 @@
+{% extends "profile/header.html" %}
+{% load static %}
+{% block content %}
+<div class="testimonial-container" style="padding: 20px 100px 20px 100px;">
+    <div style="padding-bottom: 20px">
+        <div style="background: {{ user.color }}" class="card rounded">
+            <h1 style="text-align: center;color: {{ user.fontColor }}">Liked By</h1>
+        </div>
+    </div>
+
+    <div class="row">
+       {% if liked_users %}
+            {% for user in liked_users %}
+                <div class="col-md-4">
+                    <div class="testimonial-item">
+                        <a style="text-decoration: none" href="{% url 'profile' username=user.username %}">
+                            <div style="background: {{ user.color }};padding-bottom: 20px" class="card rounded">
+                                <div style="padding: 20px 10px 10px;color: {{ user.fontColor }} ">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <img class="img-md rounded-circle" id="liked-profile-pic" src="{{ user.profile_image }}" alt="{{ user.username }}">
+                                                <h1 style="padding-left: 20px">{{ user.username }}</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+{#                <a style="text-decoration: none;color: {{ user.fontColor }}" href="{% url 'profile' username=user.username %}" class="liked-user-card">#}
+{#                    <div class="liked-user-profile-image">#}
+{#                        {% if user.profile_image %}#}
+{#                            <img src="{{ user.profile_image }}" alt="{{ user.username }}">#}
+{##}
+{#                        {% endif %}#}
+{#                    </div>#}
+{#                    <div class="liked-user-username">#}
+{#                        {{ user.username }}#}
+{#                    </div>#}
+{#                </a>#}
+
+            {% endfor %}
+        {% else %}
+    </div>
+            <div class="col-md-12">
+                <div style="padding: 20px">
+                    <div style="background: {{ user.color }};padding-top: 10px;" class="card rounded">
+                        <h4 style="text-align: center">No likes in this post</h4>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+
+{#{% extends "profile/header.html" %}#}
+{#{% load static %}#}
+{#{% block content %}#}
+{##}
+{#<div class="container">#}
+{#    <h1>Liked By</h1>#}
+{#    <div class="liked-users-container">#}
+{#        {% if liked_users %}#}
+{#            {% for user in liked_users %}#}
+{#                <a href="{% url 'profile' username=user.username %}" class="liked-user-card">#}
+{#                    <div class="liked-user-profile-image">#}
+{#                        {% if user.profile_image %}#}
+{#                            <img src="{{ user.profile_image }}" alt="{{ user.username }}">#}
+{##}
+{#                        {% endif %}#}
+{#                    </div>#}
+{#                    <div class="liked-user-username">#}
+{#                        {{ user.username }}#}
+{#                    </div>#}
+{#                </a>#}
+{#            {% endfor %}#}
+{#        {% else %}#}
+{#            <h4>No users have liked this post yet.</h4>#}
+{#        {% endif %}#}
+{#    </div>#}
+{#</div>#}
+{#{% endblock %}#}

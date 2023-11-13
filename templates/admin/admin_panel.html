@@ -1,0 +1,21 @@
+{% extends "admin/admin_header.html" %}
+{% load static %}
+{% block content %}
+<form method="post" action="{% url 'admin_panel' %}">
+    {% csrf_token %}
+
+<div class = "container">
+<div class ="center">
+<div class="dropdown">
+  <button class="dropbtn">Manage Users/Posts</button>
+  <div class="dropdown-content">
+  <a href="{% url 'admin_panel_users' %}"> Users </a>
+  <a href="{% url 'admin_panel_posts' %}"> Posts </a>
+  <a href="{% url 'admin_panel_testimonials' %}"> Testimonials </a>
+  </div>
+ </div>
+</div>
+</div>
+</form>
+
+{% endblock %}

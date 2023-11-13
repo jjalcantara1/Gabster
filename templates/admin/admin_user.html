@@ -1,0 +1,23 @@
+{% extends "admin/admin_header.html" %}
+{% block content %}
+<form method="post" action="{% url 'admin_panel_users' %}">
+
+<div class = "container">
+<div class="center">
+    {% csrf_token %}
+    <div class = "txt"><h2>Users</h2></div>
+    <ul class="ul_user">
+        {% for user in users %}
+            <li>
+                <input type="checkbox" name="delete_user" value="{{ user.id }}">
+                <a href="{% url 'profile' username=user.username %}">{{ user.username }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="input-box button">
+        <input type="submit" value="Delete" name="select_delete">
+    </div>
+</div>
+</div>
+</form>
+{% endblock %}

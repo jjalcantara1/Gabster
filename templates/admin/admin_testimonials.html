@@ -1,0 +1,21 @@
+{% extends "admin/admin_header.html" %}
+<form method="post" action="{% url 'admin_panel_testimonials' %}">
+{% block content %}
+    {% csrf_token %}
+<div class = "container">
+<div class = "center" >
+ <div class = "txt"><h2>Testimonials</h2></div>
+    <ul class = "ul_post">
+     {% for testimonial in testimonials %}
+         <li>
+
+                <a href="{% url 'testimonial_detail' user_to_username=testimonial.user_to.username testimonial_id=testimonial.id %}">
+              {{ testimonial.createdAt }} - {{ testimonial }}
+             </a>
+         </li>
+     {% endfor %}
+ </ul>
+</div>
+</div>
+</form>
+{% endblock %}

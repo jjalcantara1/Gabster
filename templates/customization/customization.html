@@ -1,0 +1,148 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Us</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mooli&family=Poppins:wght@200&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta name=”viewport” content=”width=device-width, initial-scale=1.0">
+    <link href="{% static 'customization/customization.css' %}" rel="stylesheet">
+    <link id="theme-style" rel="stylesheet" type="text/css" href="">
+</head>
+<body>
+<div class="wrapper">
+<header><h1>Update Profile</h1></header>
+  <form method="post" enctype="multipart/form-data" id="post-form">
+    {% csrf_token %}
+    <p>
+     <label for="id_profile_image">Profile image:</label><br>
+      {% if user.profile_image.url %}
+        Currently: <a href="{{ user.profile_image.url }}">{{ user.profile_image.url|truncatechars:40 }}</a>
+      {% else %}
+        Currently: None
+      {% endif %}
+<input type="file" name="profile_image" accept="image/*" id="id_profile_image" onchange="checkFileSize(event)">
+  </p>
+
+  <p>
+     <label for="id_profile_cover">Profile cover:</label><br>
+     {% if user.profile_cover and user.profile_cover.url %}
+            Currently: <a href="{{ user.profile_cover.url }}">{{ user.profile_cover.url|truncatechars:40 }}</a>
+        {% else %}
+            Currently: None
+        {% endif %}
+    <input type="file" name="profile_cover" accept="image/*" id="id_profile_cover" onchange="checkFileSize(event)">
+  </p>
+
+   <p>
+      <label for="id_profile_song">Profile song:</label><br>
+      {% if user.profile_song and user.profile_song.url %}
+        Currently: <a href="{{ user.profile_song.url }}">{{ user.profile_song.url|truncatechars:40 }}</a>
+      {% else %}
+        Currently: None
+      {% endif %}
+      <input type="checkbox" name="profile_song-clear" id="profile_song-clear_id">
+      <label for="profile_song-clear_id">Clear</label><br>
+      <input type="file" name="profile_song" accept="audio/*" id="id_profile_song"onchange="checkFileSize(event)">
+    </p>
+
+  <p>
+  <label for="id_profile_background">Profile background:</label><br>
+  {% if user.profile_background and user.profile_background.url %}
+    Currently: <a href="{{ user.profile_background.url }}">{{ user.profile_background.url|truncatechars:40 }}</a>
+  {% else %}
+    Currently: None
+  {% endif %}
+  <input type="file" name="profile_background" accept="image/*" id="id_profile_background" onchange="checkFileSize(event)">
+</p>
+
+
+  <p>
+    <label for="id_hide_email">Hide email:</label>
+    <input type="checkbox" name="hide_email" id="id_hide_email" checked>
+  </p>
+
+  <p class="input-box">
+    <label for="id_bio">Bio:</label>
+    <input type="text" name="bio" value="{{ user.bio }}" maxlength="300" id="id_bio">
+  </p>
+
+  <br><p class="input-box">
+    <label for="id_location">Location:</label>
+    <input type="text" name="location" value="{{user.location}}" maxlength="100" id="id_location">
+  </p>
+
+  <br><p>
+    <label for="id_color">Choose a Color:</label>
+    <input  type="color"
+            id="id_color"
+            class="colorfield_field jscolor form-control"
+            name="color"
+            value="{{ user.color }}"
+            data-jscolor="{hash:true,width:25,height:150,format:'hex',required:true,paletteCols:1,paletteHeight:28}"
+            required />
+  </p>
+
+  <p>
+    <label for="id_backgroundColor">Choose a Background Color:</label>
+    <input  type="color"
+            id="id_backgroundColor"
+            class="colorfield_field jscolor form-control"
+            name="backgroundColor"
+            value="{{ user.backgroundColor }}"
+            data-jscolor="{hash:true,width:25,height:150,format:'hex',required:true,paletteCols:1,paletteHeight:28}"
+            required />
+  </p>
+
+
+  <p>
+    <label for="id_fontColor">Choose a Font Color:</label>
+    <input  type="color"
+            id="id_fontColor"
+            class="colorfield_field jscolor form-control"
+            name="fontColor"
+            value="{{ user.fontColor }}"
+            data-jscolor="{hash:true,width:25,height:150,format:'hex',required:true,paletteCols:1,paletteHeight:28}"
+            required />
+  </p>
+
+    <input id="submit-btn" type="submit" value="Update" href="{{ user.profile }}">
+  </form>
+    <script>
+        // JavaScript code to handle color selection
+        document.addEventListener('DOMContentLoaded', function() {
+            const submitButton = document.getElementById('submit-button');
+
+            submitButton.addEventListener('click', function() {
+                const selectedColor = document.querySelector('input[name="color"]:checked');
+
+                if (selectedColor) {
+                    alert('Selected color: ' + selectedColor.value);
+                } else {
+                    alert('Please select a color.');
+                }
+            });
+        });
+        function checkFileSize(event) {
+            const MAX_SIZE = 50 * 1024 * 1024; // 50MB in bytes
+            const files = event.target.files;
+            if (files.length > 0 && files[0].size > MAX_SIZE) {
+                alert('The file size should not exceed 50MB.');
+                event.target.value = ''; // Clear the file input
+                event.preventDefault(); // Prevent form submission
+            }
+        }
+    </script>
+</div>
+</body>
+</html>

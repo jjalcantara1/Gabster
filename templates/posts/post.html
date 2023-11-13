@@ -1,0 +1,139 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create a New Post</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&display=swap" rel="stylesheet">
+    <link href="{% static 'profile/post.css' %}" rel="stylesheet">
+    <link id="theme-style" rel="stylesheet" type="text/css" href="">
+</head>
+<body>
+    <div class="post-container">
+        <header><h1>Create Post</h1></header>
+ <form method="post" enctype="multipart/form-data" id="post-form">
+            {% csrf_token %}
+            <div class="input-box">
+                <textarea class="post-field" name="{{ form.content.name }}" id="{{ form.content.id_for_label }}" oninput="enableSubmitButton()" placeholder="What's on your mind?"></textarea>
+            </div>
+
+            <label>Select Type:</label>
+            <label for="{{ form.post_type.id_for_label }}">
+                <input type="radio" name="{{ form.post_type.name }}" value="picture" id="{{ form.post_type.id_for_label }}"> Picture
+            </label>
+            <label for="{{ form.post_type.id_for_label }}">
+                <input type="radio" name="{{ form.post_type.name }}" value="video" id="{{ form.post_type.id_for_label }}"> Video
+            </label>
+
+            <div id="picture-upload" style="display: none;">
+                <input type="file" accept="image/*" name="{{ form.picture.name }}" id="{{ form.picture.id_for_label }}">
+                <p class="file-size-info">Maximum file size: 50MB</p>
+            </div>
+
+            <div id="video-upload" style="display: none;">
+                <input type="file" accept="video/*" name="{{ form.video.name }}" id="{{ form.video.id_for_label }}">
+                <p class="file-size-info">Maximum file size: 50MB</p>
+            </div>
+
+            <input id="submit-btn" type="submit"  value="Create Post">
+        </form>
+        <div id="error-messages" class="error-messages"></div>
+
+     <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let pictureRadio = document.querySelector('input[value="picture"]');
+        let videoRadio = document.querySelector('input[value="video"]');
+        let pictureInput = document.querySelector('input[name="{{ form.picture.name }}"]');
+        let videoInput = document.querySelector('input[name="{{ form.video.name }}"]');
+        let contentInput = document.querySelector('input[name="{{ form.content.name }}');
+
+        let currentSelection = null;
+        const MAX_FILE_SIZE = 50 * 1024 * 1024; // 25 MB in bytes
+        const errorMessages = document.getElementById('error-messages');
+
+        pictureRadio.addEventListener('change', function() {
+            toggleUploadSection('picture-upload', 'video-upload', pictureInput, videoInput);
+        });
+
+        videoRadio.addEventListener('change', function() {
+            toggleUploadSection('video-upload', 'picture-upload', videoInput, pictureInput);
+        });
+
+        function toggleUploadSection(showSectionId, hideSectionId, showFileInput, hideFileInput) {
+            let showSection = document.getElementById(showSectionId);
+            let hideSection = document.getElementById(hideSectionId);
+
+            hideFileInput.disabled = true;
+
+            if (currentSelection === showSectionId) {
+                return;
+            }
+
+            showFileInput.value = '';
+            showFileInput.disabled = false;
+
+            showSection.style.display = 'block';
+            hideSection.style.display = 'none';
+
+            currentSelection = showSectionId;
+            enableSubmitButton();
+        }
+
+        function enableSubmitButton() {
+            const submitButton = document.getElementById('submit-btn');
+            if (validateFileExtensions(pictureInput) && validateFileExtensions(videoInput) && (contentInput.value.trim() !== '')) {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
+
+        function validateFileExtensions(fileInput) {
+            const allowedPictureExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+            const allowedVideoExtensions = ['mp4', 'avi', 'mov', 'mkv'];
+
+            function getFileExtension(filename) {
+                return filename.split('.').pop().toLowerCase();
+            }
+
+            if (fileInput.files.length > 0) {
+                const fileExtension = getFileExtension(fileInput.files[0].name);
+                const fileSize = fileInput.files[0].size;
+                if (fileSize > MAX_FILE_SIZE) {
+                    errorMessages.innerHTML = 'File size exceeds 50 MB limit.';
+                    fileInput.value = '';
+                    return false;
+                }
+
+                let allowedExtensions = fileInput === pictureInput ? allowedPictureExtensions : allowedVideoExtensions;
+                if (!allowedExtensions.includes(fileExtension)) {
+                    errorMessages.innerHTML = `Invalid file format. Allowed formats for ${fileInput === pictureInput ? 'pictures' : 'videos'}: ${allowedExtensions.join(', ')}.`;
+                    fileInput.value = '';
+                    return false;
+                }
+            }
+
+            errorMessages.innerHTML = ''; // Clear any existing error messages
+            return true;
+        }
+
+        // Event listeners for file inputs
+        pictureInput.addEventListener('change', function() {
+            enableSubmitButton();
+        });
+        videoInput.addEventListener('change', function() {
+            enableSubmitButton();
+        });
+
+        // Initial validation
+        enableSubmitButton(contentInput, pictureInput, videoInput);
+    });
+</script>
+
+
+</body>
+</html>

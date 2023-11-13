@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Make A Testimonial</title>
+  <link rel="stylesheet" href="{% static 'profile/testimonials.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+	<div class="testimonial-container">
+		<header><h1>Create a Testimonial</h1></header>
+
+		<form method="post" id="testimonial-form">
+			{% csrf_token %}
+{#			<label id="rate">Rating:</label>#}
+
+{#			<div class="rating">#}
+{#				<label>#}
+{#					<input type="radio" name="rating" value="1" />#}
+{#					<span class="icon">★</span>#}
+{#				</label>#}
+{#				<label>#}
+{#					<input type="radio" name="rating" value="2" />#}
+{#					<span class="icon">★</span>#}
+{#					<span class="icon">★</span>#}
+{#				</label>#}
+{#				<label>#}
+{#					<input type="radio" name="rating" value="3" />#}
+{#					<span class="icon">★</span>#}
+{#					<span class="icon">★</span>#}
+{#					<span class="icon">★</span>#}
+{#				</label>#}
+{#				<label>#}
+{#					<input type="radio" name="rating" value="4" />#}
+{#					<span class="icon">★</span>#}
+{#					<span class="icon">★</span>#}
+{#					<span class="icon">★</span>#}
+{#					<span class="icon">★</span>#}
+{#				</label>#}
+{#				<label>#}
+{#					<input type="radio" name="rating" value="5" />#}
+{#					<span class="icon">★</span>#}
+{#					<span class="icon">★</span>#}
+{#					<span class="icon">★</span>#}
+{#					<span class="icon">★</span>#}
+{#					<span class="icon">★</span>#}
+{#				</label>#}
+{#			</div>#}
+
+{#			<label for="id_content">Testimonial Content:</label>#}
+            <div class="input-box">
+            <textarea id="id_content" name="content" rows="4" cols="50" class="testimonial-field" oninput="enableSubmitButton()" placeholder="What's on your mind?"></textarea>
+            </div>
+
+            <input type="hidden" name="user_to_username" value="{{ user_to.username }}">
+            <input id="submit-btn" type="submit" value="Add Testimonial" disabled>
+        </form>
+	</div>
+<script>
+        function enableSubmitButton() {
+            // Get the testimonial content
+            const content = document.getElementById('id_content').value;
+
+            // Get the submit button
+            const submitButton = document.getElementById('submit-btn');
+
+            // Enable the button if content is not empty, otherwise disable it
+            if (content.trim() !== '') {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
+</script>
+</body>
+</html>

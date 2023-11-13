@@ -1,0 +1,48 @@
+body{
+	background-color: #330055 ;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 1000'%3E%3Cg %3E%3Ccircle fill='%23330055' cx='50' cy='0' r='50'/%3E%3Cg fill='%233b015d' %3E%3Ccircle cx='0' cy='50' r='50'/%3E%3Ccircle cx='100' cy='50' r='50'/%3E%3C/g%3E%3Ccircle fill='%23440266' cx='50' cy='100' r='50'/%3E%3Cg fill='%234c046e' %3E%3Ccircle cx='0' cy='150' r='50'/%3E%3Ccircle cx='100' cy='150' r='50'/%3E%3C/g%3E%3Ccircle fill='%23550576' cx='50' cy='200' r='50'/%3E%3Cg fill='%235e077f' %3E%3Ccircle cx='0' cy='250' r='50'/%3E%3Ccircle cx='100' cy='250' r='50'/%3E%3C/g%3E%3Ccircle fill='%23670987' cx='50' cy='300' r='50'/%3E%3Cg fill='%23710b90' %3E%3Ccircle cx='0' cy='350' r='50'/%3E%3Ccircle cx='100' cy='350' r='50'/%3E%3C/g%3E%3Ccircle fill='%237b0d98' cx='50' cy='400' r='50'/%3E%3Cg fill='%23850fa1' %3E%3Ccircle cx='0' cy='450' r='50'/%3E%3Ccircle cx='100' cy='450' r='50'/%3E%3C/g%3E%3Ccircle fill='%238f11a9' cx='50' cy='500' r='50'/%3E%3Cg fill='%239912b1' %3E%3Ccircle cx='0' cy='550' r='50'/%3E%3Ccircle cx='100' cy='550' r='50'/%3E%3C/g%3E%3Ccircle fill='%23a413ba' cx='50' cy='600' r='50'/%3E%3Cg fill='%23ae14c2' %3E%3Ccircle cx='0' cy='650' r='50'/%3E%3Ccircle cx='100' cy='650' r='50'/%3E%3C/g%3E%3Ccircle fill='%23b915ca' cx='50' cy='700' r='50'/%3E%3Cg fill='%23c516d3' %3E%3Ccircle cx='0' cy='750' r='50'/%3E%3Ccircle cx='100' cy='750' r='50'/%3E%3C/g%3E%3Ccircle fill='%23d016db' cx='50' cy='800' r='50'/%3E%3Cg fill='%23db17e3' %3E%3Ccircle cx='0' cy='850' r='50'/%3E%3Ccircle cx='100' cy='850' r='50'/%3E%3C/g%3E%3Ccircle fill='%23e716eb' cx='50' cy='900' r='50'/%3E%3Cg fill='%23f316f3' %3E%3Ccircle cx='0' cy='950' r='50'/%3E%3Ccircle cx='100' cy='950' r='50'/%3E%3C/g%3E%3Ccircle fill='%23FF15FB' cx='50' cy='1000' r='50'/%3E%3C/g%3E%3C/svg%3E");
+	background-attachment: fixed;
+	background-size: contain;
+	}
+
+#header{
+	background-color: #FF0000;
+	height: 6vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+	padding: 10px;
+
+	}
+
+#button{
+	border-radius: 50%;
+	height: 35px;
+	width: 35px;
+	overflow: hidden;
+	display: flex;
+    justify-content: center;
+   	align-items: center;
+	cursor: pointer;
+	margin-bottom: 16px;
+	border: none;
+
+	}
+
+#button img{
+	width: 35px;
+	height: auto;
+
+	}
+
+#searchbar{
+    width: 10000px;
+    border-radius: 15px;
+    margin-left: 30%;
+    margin-right: 40%;
+    outline: none;
+    border: none;
+    padding: 5px;
+    padding-left: 8px;
+
+	}

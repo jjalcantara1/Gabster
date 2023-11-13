@@ -1,0 +1,13 @@
+{% autoescape off %}
+
+    <p>Hello {{ user.username }},</p>
+    <p>Please clink on the link to complete your registration:</p>
+    <p><a href="{{ link }}">Verify Email</a></p>
+
+
+    This link will expire in 5 minutes. If you were unable to register, please request a new link.
+
+
+
+
+{% endautoescape %}

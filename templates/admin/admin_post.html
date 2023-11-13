@@ -1,0 +1,38 @@
+{% extends "admin/admin_header.html" %}
+<form method="post" action="{% url 'admin_panel_posts' %}">
+{% block content %}
+    {% csrf_token %}
+<div class = "container">
+<div class = "center" >
+ <div class = "txt"><h2>Posts</h2></div>
+    <ul class = "ul_post">
+     {% for post in posts %}
+         <li>
+             <a href ="{% url 'post_detail' username=post.user.username post_id=post.id %}">
+             Post by {{ post.user.username }} - {{ post.createdAt }} -
+              {% if post.post_type == 'picture' %}
+             {% if post.content %}
+                 {{ post.content }} - {{ post.picture.name }}
+             {% else %}
+                 {{ post.picture.name }}
+             {% endif %}
+         {% elif post.post_type == 'video' %}
+             {% if post.content %}
+                 {{ post.content }} - {{ post.video.name }}
+             {% else %}
+                 {{ post.video.name }}
+             {% endif %}
+         {% else %}
+             {{ post.content }}
+         {% endif %}
+             </a>
+         </li>
+     {% endfor %}
+ </ul>
+</div>
+</div>
+</form>
+{% endblock %}
+
+
+

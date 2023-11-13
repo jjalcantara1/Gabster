@@ -1,0 +1,288 @@
+{% extends "profile/header.html" %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+      <div class="container">
+
+<div class="profile-page tx-13">
+        <div style="background: {{ user.backgroundColor}}" class="row" id="upper-profile">
+
+        <div class="col-12 grid-margin">
+            <div style="background: {{ user.color}}"  class="profile-header">
+                <div style="background: {{ user.color}}" class="cover">
+                    <div class="gray-shade"></div>
+                    <figure>
+                        {% if user.profile_cover and user.profile_cover.url %}
+                        <img src="{{ user.profile_cover.url }}" class="img-fluid" alt="profile cover">
+                        {% endif %}
+                    </figure>
+
+                    <div class="cover-body d-flex justify-content-between align-items-center">
+                        <div>
+
+                            <img class="profile-pic" src="{{ user.profile_image.url }}" alt="profile">
+
+
+                            <span style = "color: {{ user.fontColor }}" class="profile-name">{{user.username}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-links">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="background: {{ user.backgroundColor}}" class="row profile-body" id="lower-profile">
+
+
+
+
+        <!-- left wrapper start -->
+        <div class="d-none d-md-block col-md-4 col-xl-3 left-wrapper"style="padding-right: 0px">
+            <div style="background: {{ user.color}}" class="card rounded">
+                <div class="card-body">
+                    <div>
+                        <label style = "color: {{ user.fontColor }}" class="tx-11 font-weight-bold mb-0 text-uppercase">Joined:</label>
+                        <p style = "color: {{ user.fontColor }}">{{ user.date_joined}}</p>
+                    </div>
+                    <div class="mt-3">
+                        <label style = "color: {{ user.fontColor }}" class="tx-11 font-weight-bold mb-0 text-uppercase">Lives:</label>
+                        <p style = "color: {{ user.fontColor }}" >{{user.location}}</p>
+                    </div>
+                    <div class="mt-3">
+
+                        {% if not user.hide_email %}
+                            <label style = "color: {{ user.fontColor }}" class="tx-11 font-weight-bold mb-0 text-uppercase">Email:</label>
+                            <p style = "color:{{ user.fontColor }}">{{ user.email }}</p>
+                        {% endif %}
+                    </div>
+                     <div>
+                            {% if user.profile_song %}
+                            <audio controls autoplay style="width: 100%;" class="music-player">
+                                <source src="{{ user.profile_song.url }}" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            {% endif %}
+                        </div>
+                </div>
+            </div>
+          <div id="gallery-section">
+                    <div style="background: {{ user.color }}" class="card rounded">
+                        <div class="card-body">
+                            <div class="latest-photos">
+                                <div class="row"  style="padding-right: 20px">
+                                    <div>
+                                        <label style = "color: {{ user.fontColor }}" class="tx-11 font-weight-bold mb-0 text-uppercase">About:</label>
+                                        <p style = "color: {{ user.fontColor }}">{{ user.bio }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <!-- left wrapper end -->
+        <div class="col-md-8 col-xl-6 middle-wrapper" style="padding: 0px">
+        <div id="testimonial-wrapper">
+                    <div class="col-md-12 grid-margin">
+                        <div style="background: {{ user.color }}" class="card rounded">
+                            <div class="card-body">
+                                <h6 style = "color: {{ user.fontColor }}" >Got something in mind {{ person.username }}?</<h6>
+                                <div>
+
+                            {% if person.username != user.username %}
+                                <a href="{% url 'add_testimonial' user_to_username=user.username %}"><input style="background: {{ user.color}};color: {{ user.fontColor }}"  class="testimonial-btn" type="submit" value="Add Testimonial"></a>
+                            {% else %}
+                                <a href="{% url 'create_post' user %}">
+                                    <input  style="background: {{ user.color}}; color: {{ user.fontColor }}" class="post-btn" type="submit" value="Create Post">
+                                </a>
+                            {% endif %}
+                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+        <div>
+
+            {% for post in post %}
+                <div class="col-md-12 grid-margin">
+                    <div style="background: {{ user.color}}" class="card rounded">
+                        <div class="card-header">
+{#                            <a href="{% url 'profile' username=post.user.username %}">#}
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <img class="img-xs rounded-circle" src="{{ user.profile_image.url }}" alt="" style = "object-fit: cover" style="margin-right: 15px">
+                                        <div class="ml-2" id="user-posts">
+                                            <h5 style="padding: 0px; color: {{ user.fontColor }}">{{ post.user.username }}</h5>
+                                            <p style = "color: {{ user.fontColor }}" class="tx-11" >{{ post.createdAt }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="card-body">
+                            <a style = "color: {{ user.fontColor }}" href="{% url 'post_detail' post.user.username post.id %}">
+                                <p style = "color: {{ user.fontColor }}" class="mb-3 tx-14">{{ post.content }}</p>
+                                {% if post.post_type == "picture" and post.picture %}
+                                    <img style = "color: {{ user.fontColor }}; width: 500px; height: auto;" class="img-fluid" src="{{ post.picture.url }}" alt="">
+                                {% elif post.post_type == "video" and post.video %}
+                                    <video controls style="width: 500px; height: auto;">
+                                        <source src="{{ post.video.url }}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                {% else %}
+                                {% endif %}
+                            </a>
+                        </div>
+                        <div class="card-footer">
+
+                            <div class="d-flex justify-content-between">
+
+                                <form method="post" class="like-form" data-like-url="{% url 'like' user.username post.id %}">
+                                        {% csrf_token %}
+
+                                <button onclick="changeIcon(this)" type="button" id="like" class="bg-green-500 text-white px-2 py-1 rounded-full flex items-center like-button">
+                                        {% for foo in user_like %}
+
+                                            {% if post == foo.post %}
+                                                {% if foo.is_liked %}
+                                                    <i class="fa-solid fa-heart" id="like"></i>
+
+                                                {% else %}
+                                                    <i class="fa-regular fa-heart" id="like"></i>
+                                                {% endif %}
+
+                                            {% endif %}
+
+
+
+                                        {% endfor %}
+
+                                </button>
+
+                                        <span style = "color: {{ user.fontColor }}" class="ml-2 text-sm">{{ post.likes }} Likes</span>
+                                    </form>
+                                 <div class="d-flex post-actions">
+                                    <a href="{% url 'post_detail' post.user.username post.id %}" class="d-flex align-items-center text-muted comment-btn" style="text-decoration: none; cursor: pointer;">
+                                      <p style = "color:{{ user.fontColor }}">{{ post.comment_count }} Comments</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+               <!-- right wrapper start -->
+        <div class="d-none d-xl-block col-xl-3 right-wrapper" style="padding-left: 0px">
+            <div id="testimonial-wrapper">
+                <div class="col-md-12 grid-margin" style="padding: 0px" >
+                    <div style="background: {{ user.color}}" class="card rounded"  >
+                        <div class="card-body">
+                            <a class="testimonials" style = "color: {{ user.fontColor }}" href="{% url 'view_testimonials' user_to_username=user.username %}">Testimonials</a>
+                            <p style = "color: {{ user.fontColor }}"> Number of testimonials: {{ testimonials_received|length }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonials-scrollable-container" >
+                                {% for testimonial in testimonials_received %}
+                                    <div style="background: {{ user.color}}"  id="testimonial-border" class="d-flex justify-content-between mb-3 pb-1">
+                                    <a style="color: #24262e" href="{% url 'testimonial_detail' user_to_username=testimonial.user_to.username testimonial_id=testimonial.id %}?came_from=profile">
+                                        <div class="d-flex hover-pointer">
+                                            <img style = "color: {{ user.fontColor }}" class="img-xs rounded-circle" id="testimonial-profile-pic"
+                                                 src="{{ testimonial.user_from.profile_image.url }}"
+                                                 alt="{{ testimonial.user_from.username }}">
+                                            <div id="testimonial-content">
+                                                <h6 style = "color: {{ user.fontColor }}" >{{ testimonial.user_from.username }}</h6> <p style="font-size: 12px; color: {{ user.fontColor }}" class="tx-11">{{ testimonial.createdAt | date:"F j, Y" }}</p> <br> <br>
+{#                                                <p style="color: black">{{ testimonial.content | truncatechars:30 }}</p>#}
+                                            </div>
+                                        </div> <p style = "color: {{ user.fontColor }}" id="testimonial-sentence">{{ testimonial.content | truncatechars:30 }}</p>
+                                    </div>
+                                     </a>
+                                {% endfor %}
+                            </div>
+        </div>
+        <!-- right wrapper end -->
+
+    </div>
+</div>
+</div>
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".like-button").click(function () {
+            const likeForm = $(this).closest(".like-form");
+
+            $.ajax({
+                type: "POST",
+                url: likeForm.data("like-url"),
+                data: likeForm.serialize(),
+                success: function (data) {
+                    const likeCount = likeForm.find(".text-sm");
+                    likeCount.text(data.likes + " Likes");
+                },
+                error: function (error) {
+                    console.error("Error: " + JSON.stringify(error));
+                }
+            });
+        });
+    });
+
+    function changeIcon(button) {
+        const icon = button.querySelector("i");
+        if (icon.classList.contains("fa-solid")) {
+            icon.classList.remove("fa-solid");
+            icon.classList.add("fa-regular");
+        } else {
+            icon.classList.remove("fa-regular");
+            icon.classList.add("fa-solid");
+        }
+    }
+</script>
+    <style>
+    .music-player {
+        background-color: {{ user.backgroundColor }}; /* Use the user's profile color */
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    audio {
+        width: 100%;
+        background-color: {{ user.backgroundColor }};
+        border: none;
+        outline: none;
+    }
+
+    audio::-webkit-media-controls-panel {
+        background-color: {{ user.backgroundColor }};
+        border: none;
+    }
+
+    audio::-webkit-media-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: {{ user.backgroundColor }};
+        border: none;
+    }
+
+    audio::-webkit-media-controls-play-button {
+        font-size: 24px;
+        color: #fff; /* You can change the color */
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    audio::-webkit-media-controls-volume-slider {
+        width: 80px;
+    }
+</style>
+{% endblock %}
+{% endblock %}

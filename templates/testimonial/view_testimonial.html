@@ -1,0 +1,60 @@
+{% extends "profile/header.html" %}
+{% load static %}
+{% block content %}
+<div class="testimonial-container" style="padding: 20px 100px 20px 100px;">
+    <div style="padding-bottom: 20px">
+        <div style="background: {{ user.color }}" class="card rounded">
+            <h1 style="text-align: center;color: {{ user.fontColor }}">User Testimonials</h1>
+        </div>
+    </div>
+
+    <div class="row">
+       {% if testimonials_received %}
+            {% for testimonial in testimonials_received %}
+                <div class="col-md-4">
+                    <div class="testimonial-item">
+                        <a style="text-decoration: none" href="{% url 'testimonial_detail' testimonial.user_to.username testimonial.id %}?came_from=view_testimonials">
+                            <div style="background: {{ testimonial.user_from.color }}" class="card rounded">
+                                <div style="padding: 20px 10px 10px;color: {{ testimonial.user_from.fontColor }} " class="card-header">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <img class="img-xs rounded-circle" id="testimonial-profile-pic"
+                                                 src="{{ testimonial.user_from.profile_image.url }}"
+                                                 alt="{{ testimonial.user_from.username }}">
+                                            <div class="d-flex justify-content-between">
+                                                <h5>{{ testimonial.user_from.username }}</h5>
+                                                <p style="padding-left: 15px; padding-top: 4px; font-size: 12px;color: {{ testimonial.user_from.fontColor }}" class="tx-11">{{ testimonial.createdAt | date:"F j, Y" }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="testimonial-body">
+                                    <ul class="testimonial-list">
+                                        <li class="testimonial-item">
+                                            <p style="color: {{ testimonial.user_from.fontColor }}" class="tx-14">{{ testimonial.content | truncatechars:45 }}</p>
+                                            <div class="d-flex justify-content-between">
+                                                <p style="font-size: 12px;color: {{ testimonial.user_from.fontColor }}" class="tx-11">{{ testimonial.createdAt | timesince }} ago</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+    </div>
+            <div class="col-md-12">
+                <div style="padding: 20px">
+                    <div style="background: {{ user.color }};padding-top: 10px;" class="card rounded">
+                        <h4 style="text-align: center">No testimonials yet.</h4>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,213 @@
+{% extends "profile/header.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh; padding: 20px;">
+    <div class="card rounded" style="width: 60rem;max-height: none; background: {{ user.color }};">
+    <div class="card rounded" style="width: 60rem;max-height: none; background: {{ user.color }};">
+        <div class="card-header d-flex justify-content-between">
+            <a style="text-decoration: none;padding-top: 15px;" href="{% url 'profile' username=post.user.username %}">
+                <div class="d-flex align-items-center">
+                    <img class="img-xs rounded-circle" src="{{ user.profile_image.url }}" alt="" style="object-fit: cover; margin-right: 15px">
+                    <div style="padding: 0px 0px 0px 10px" class="ml-2">
+                        <h5 style = "color: {{ user.fontColor }}">{{ post.user.username }}</h5>
+                        <p style = "color: {{ user.fontColor }}" class="tx-11">{{ post.createdAt }}</p>
+                    </div>
+                </div>
+            </a>
+            {% if user.is_authenticated and user == request.user %}
+            <button type="button" id="delete" class="btn-sm delete-button" data-toggle="modal" data-target="#deletePostModal" data-comment-id="{{ comment.id }}">
+                <i style="padding-right: 18px" class="bi bi-trash3"></i>
+            </button>
+            {% endif %}
+        </div>
+
+        <div class="card-body">
+            <a href="{% url 'post_detail' post.user.username post.id %}">
+                <p style = "color: {{ user.fontColor }}" class="mb-3 tx-14">{{ post.content }}</p>
+                {% if post.post_type == "picture" and post.picture %}
+                <img style = "color: {{ user.fontColor }}; width: 922px; height: auto;" class="img-fluid" src="{{ post.picture.url }}" alt="">
+                {% elif post.post_type == "video" and post.video %}
+                <video controls style="width: 922px; height: auto;">
+                    <source src="{{ post.video.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                {% endif %}
+            </a>
+        </div>
+
+        <div class="card-footer">
+            <div class="d-flex justify-content-between">
+                <div class="d-flex post-actions">
+                    <form method="post" class="like-form" data-like-url="{% url 'like' post.user.username post.id %}">
+                        {% csrf_token %}
+                         <button onclick="changeIcon(this)" type="button" id="like" class="bg-green-500 text-white px-2 py-1 rounded-full flex items-center like-button-post">
+                            {% if post == foo.post %}
+                                {% if foo.is_liked %}
+                                    <i class="fa-solid fa-heart" id="like"></i>
+                                {% else %}
+                                    <i class="fa-regular fa-heart" id="like"></i>
+                                {% endif %}
+                            {% endif %}
+                        </button>
+                        <span style = "color: {{ user.fontColor }}" class="ml-2 text-sm" id="likes-count">{{ post.likes }} </span>
+                        <a style="text-decoration: none; color: {{ user.fontColor }}" href="{% url 'likedby' username=post.user.username post_id=post.id %}">
+                            Likes
+                        </a>
+                    </form>
+                </div>
+                <div class="d-flex post-actions">
+                     <a class="d-flex align-items-center text-muted comment-btn" id="toggle-add-comment"  style="text-decoration: none; cursor: pointer;">
+                         <p style = "color:{{ user.fontColor }}">{{ post.comment_count }} Comments</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Comment Section -->
+    <div class="card mb-4" id="add-comment-section" style="width: 60rem; max-height: none;  background: {{ user.color }}">
+        <div class="card-body">
+            <form style = "color: {{ user.fontColor }}" method="post" id="comment-form" action="{% url 'comment_post' post.id %}">
+                {% csrf_token %}
+                <div class="form-group">
+{#                    {{ comment_form.content.label_tag }}#}
+                    <textarea class="form-control" name="{{ comment_form.content.name }}" id="{{ comment_form.content.id_for_label }}" rows="4" placeholder="Write a Comment..." ></textarea>
+                    <small  class="form-text text-muted">{{ comment_form.content.help_text }}</small>
+                </div>
+                <button style = "color: {{ user.fontColor }}" type="submit" class="btn btn-primary">Add Comment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="card mb-4" style="width: 60rem; max-height: none; background: {{ user.color }}" id="comments-section">
+        <div class="card-body">
+            {% for comment in comments %}
+            <div class="media mb-3">
+                <img src="{{ comment.user.profile_image.url }}" class="mr-3 rounded-circle" alt="{{ comment.user.username }}" style="width: 50px; height: 50px;">
+                <div class="media-body">
+                    <h5 style = "color: {{ user.fontColor }};" class="mt-0">{{ comment.user.username }}</h5>
+                    <p style = "color: {{ user.fontColor }}" >{{ comment.content }}</p>
+                </div>
+            {% if user.is_authenticated and user == request.user %}
+            <button type="button" id="delete" class="btn-sm delete-button" data-toggle="modal" data-target="#deleteCommentModal" data-comment-id="{{ comment.id }}">
+                <i style="display: block;margin-left: auto;margin-right: 100%;" class="bi bi-trash3"></i>
+            </button>
+            {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% if user.is_authenticated and user == request.user %}
+<div class="modal fade" id="deletePostModal" tabindex="-1" role="dialog" aria-labelledby="deletePostModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deletePostModalLabel">Delete Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this post?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form method="post" action="{% url 'delete_post' username=post.user.username post_id=post.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if user.is_authenticated and user == request.user %}
+<div class="modal fade" id="deleteCommentModal" tabindex="-1" role="dialog" aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteCommentModalLabel">Delete Comment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this comment?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form method="post" action="{% url 'delete_comment' username=post.user.username post_id=post.id comment_id=0 as base_delete_url %}" id="delete-comment-form">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+      $(document).ready(function () {
+        $(".like-button-post").click(function (event) {
+            event.preventDefault(); // Prevent the default form submit action
+            const likeForm = $(this).closest(".like-form");
+            const likeButton = $(this);
+
+            console.log('Like button clicked'); // Debugging line
+
+            $.ajax({
+                type: "POST",
+                url: likeForm.data("like-url"),
+                data: likeForm.serialize(),
+                success: function (data) {
+                    console.log('AJAX success'); // Debugging line
+                    const likeCount = likeForm.find("#likes-count");
+                    likeCount.text(data.likes);
+                    changeIcon(likeButton);
+                },
+                error: function (error) {
+                    console.error("Error: " + JSON.stringify(error));
+                }
+            });
+        });
+        $('#toggle-add-comment').click(function() {
+        $('#add-comment-section').slideToggle('slow');
+     });
+    });
+
+    function changeIcon(button) {
+        const icon = button.find("i");
+        if (icon.hasClass("fa-solid")) {
+            icon.removeClass("fa-solid").addClass("fa-regular");
+        } else {
+            icon.removeClass("fa-regular").addClass("fa-solid");
+        }
+    }
+
+
+$('#deleteCommentModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var commentId = button.data('comment-id'); // Extract comment ID from the button
+    var baseAction = "{{ base_delete_url }}"; // Ensure this variable is correctly obtained
+    var formAction = baseAction.replace("0", commentId); // Replace '0' with the actual comment ID
+    var modal = $(this);
+    modal.find('#delete-comment-form').attr('action', formAction);
+    console.log("Form action at modal show: ", formAction); // Log the form action
+});
+
+$('#delete-comment-form').on('submit', function() {
+    console.log("Form action at form submission: ", $(this).attr('action')); // Log the form action at submission
+});
+
+
+</script>
+{% endblock %}
+{% endblock %}

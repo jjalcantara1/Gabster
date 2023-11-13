@@ -1,0 +1,84 @@
+{% extends "profile/header.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card rounded" style="width: 60rem;max-height: none; background: {{ testimonial.user_to.color}};">
+        <div class="card-header d-flex justify-content-between">
+            <a style="text-decoration: none;padding-top: 15px" href="{% url 'profile' username=testimonial.user_from.username %}">
+                <div class="d-flex align-items-center">
+                    <img class="img-xs rounded-circle" src="{{ testimonial.user_from.profile_image.url }}" alt="" style = "object-fit: cover" style="margin-right: 15px">
+                    <div style="padding: 0px 0px 0px 10px" class="ml-2">
+                        <h5  style = "color: {{ user.fontColor }}" >{{ testimonial.user_from.username }}</h5>
+                        <p style = "color: {{ user.fontColor }}" class="tx-11">{{ testimonial.createdAt }}</p>
+                    </div>
+                </div>
+            </a>
+            {% if user == testimonial.user_from or user == testimonial.user_to %}
+                        {% if came_from == 'profile' %}
+                    <button type="button" id="delete" class="btn-sm delete-button" data-toggle="modal" data-target="#deleteTestimonialModal" data-came-from="profile">
+                        <i style="padding-right: 18px" class="bi bi-trash3"></i>
+                    </button>
+                         {% elif came_from == 'view_testimonials' %}
+                    <button type="button" id="delete" class="btn-sm delete-button" data-toggle="modal" data-target="#deleteTestimonialModal" data-came-from="view_testimonials">
+                        <i style="padding-right: 18px" class="bi bi-trash3"></i>
+                    </button>
+                        {% endif %}
+                    {% endif %}
+        </div>
+
+        <div class="card-body" style="max-height: none;">
+            <p style = "color: {{ user.fontColor }}" class="mb-3 tx-14">{{ testimonial.content }}</p>
+        </div>
+
+        <div class="card-footer">
+            <div class="d-flex justify-content-between">
+                <p style="padding-left: 12px; color: {{ user.fontColor }}" class="tx-11">Created {{ testimonial.createdAt | timesince }} ago</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Testimonial Modal -->
+<div class="modal fade" id="deleteTestimonialModal" tabindex="-1" role="dialog" aria-labelledby="deleteTestimonialModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteTestimonialModalLabel">Delete Testimonial</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this testimonial?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                 {% if user == testimonial.user_from or user == testimonial.user_to %}
+                     <form method="post" action="{% url 'delete_testimonial' testimonial.user_to.username testimonial.id %}?came_from={{ came_from }}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete Testimonial</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+       $('#deleteTestimonialModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var cameFrom = button.data('came-from'); // Get the 'came_from' value from the button
+        var modal = $(this);
+        modal.find('.modal-footer form').attr('action', function (i, val) {
+            // Include 'came_from' as part of the URL
+            var separator = val.indexOf('?') === -1 ? '?' : '&'; // Determine the separator
+            return val + separator + 'came_from=' + cameFrom;
+        });
+    });
+
+</script>
+
+
+{% endblock %}
